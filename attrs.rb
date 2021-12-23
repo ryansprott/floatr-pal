@@ -3,7 +3,6 @@ def common_attrs(message)
     message_type: message.ais.message_type,
     repeat_indicator: message.ais.repeat_indicator,
     source_mmsi: message.ais.source_mmsi,
-    category_description: message.ais.source_mmsi_info.category_description,
   }
 end
 
@@ -26,8 +25,8 @@ end
 
 def position_attrs(message)
   {
-    latitude: message.ais.latitude.to_s[..7],
-    longitude: message.ais.longitude.to_s[..9],
+    latitude: message.ais.latitude.to_s,
+    longitude: message.ais.longitude.to_s,
   }
 end
 
@@ -41,7 +40,6 @@ end
 def type_cnb_attrs(message)
   {
     navigational_status: message.ais.navigational_status,
-    navigational_status_description: message.ais.navigational_status_description,
     true_heading: message.ais.true_heading,
     rate_of_turn: message.ais.rate_of_turn,
   }
@@ -56,7 +54,6 @@ def type_5_attrs(message)
     eta: message.ais&.eta || "",
     imo_number: message.ais.imo_number,
     ship_name: message.ais.name&.strip,
-    ship_cargo_type: message.ais.ship_cargo_type,
     ship_cargo_type_description: message.ais.ship_cargo_type_description,
     static_draught: message.ais.static_draught,
   }
@@ -92,19 +89,19 @@ end
 
 def type_8_encrypted_attrs(message)
   {
-    encrypted_data: message.ais.dp.encrypted_data_6b
+    encrypted_data: message.ais.dp.encrypted_data_6b,
   }
 end
 
 def type_9_attrs(message)
   {
-    altitude_meters: message.ais.altitude_meters
+    altitude_meters: message.ais.altitude_meters,
   }
 end
 
 def type_10_attrs(message)
   {
-    destination_mmsi: message.ais.destination_mmsi
+    destination_mmsi: message.ais.destination_mmsi,
   }
 end
 
@@ -123,7 +120,7 @@ end
 
 def type_18_attrs(message)
   {
-    true_heading: message.ais.true_heading
+    true_heading: message.ais.true_heading,
   }
 end
 
@@ -140,14 +137,13 @@ end
 
 def type_24_name_attrs(message)
   {
-    ship_name: message.ais.name&.strip
+    ship_name: message.ais.name&.strip,
   }
 end
 
 def type_24_static_attrs(message)
   {
     callsign: message.ais.callsign&.strip,
-    ship_cargo_type: message.ais.ship_cargo_type,
     ship_cargo_type_description: message.ais.ship_cargo_type_description,
     vendor_id: message.ais.vendor_id,
     model_code: message.ais.model_code,
@@ -157,14 +153,13 @@ end
 
 def type_24_aux_attrs(message)
   {
-    mothership_mmsi: message.ais.mothership_mmsi
+    mothership_mmsi: message.ais.mothership_mmsi,
   }
 end
 
 def type_27_attrs(message)
   {
     navigational_status: message.ais.navigational_status,
-    navigational_status_description: message.ais.navigational_status_description,
     gnss: message.ais.gnss?,
   }
 end

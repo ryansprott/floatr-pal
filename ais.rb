@@ -37,10 +37,23 @@ source_decoder.each_complete_message do |message|
         msg.save
       when 5
         msg = Message.new(common_attrs(message))
-        msg.build_dimension(dimension_attrs(message))
+
+        dim = Dimension.new(dimension_attrs(message))
+        unless dim.totally_invalid? || dim.weird?
+          source.last_area = dim.total_area
+          source.last_aspect_ratio = dim.aspect_ratio
+          msg.build_dimension(dim.attributes)
+        end
+
         msg.build_specific(type_5_attrs(message))
+        destination = msg.specific.destination
+        if destination.present? && destination != source.last_destination
+          source.last_destination = destination
+        end
+
         msg.save
 
+        source.static_data_received = true
         source.ship_name = msg.specific.ship_name unless source.ship_name
         source.callsign = msg.specific.callsign unless source.callsign
       when 6
@@ -91,6 +104,7 @@ source_decoder.each_complete_message do |message|
         msg.build_specific(type_21_attrs(message))
         msg.save
 
+        source.static_data_received = true
         source.ship_name = msg.specific.ship_name unless source.ship_name
       when 24
         msg = Message.new(common_attrs(message))
@@ -109,6 +123,7 @@ source_decoder.each_complete_message do |message|
           msg.build_dimension(dimension_attrs(message))
         end
 
+        source.static_data_received = true
         msg.save
       when 27
         msg = Message.new(common_attrs(message))

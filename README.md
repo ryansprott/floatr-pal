@@ -4,21 +4,21 @@ This is the companion piece to [Floatr][floatr_github_link].  It receives, decod
 
 ## Requirements
 
-* An antenna and SDR
+* An antenna and SDR.  I highly recommend an FM notch filter and 162 MHz bandpass filter as well.
 * [nmea_plus][nmea_plus_link]
-* [rtl_ais][rtl_ais_link]
+* [AIS-catcher][ais_catcher_link]
 
 ## Installation
 
 In order for Floatr to work correctly, two services must run (I use systemd):
 
-* `decode-ais.sh` uses your SDR to turn radio signals into [AIVDM sentences][aivdm_link] with rtl_ais
+* `decode-ais.sh` uses your SDR to turn radio signals into [AIVDM sentences][aivdm_link] with AIS-catcher
 * `log-ais.sh` parses these sentences with nmea_plus and saves them to the database
 
 You'll need to replace the following placeholders throughout:
 
 * `RAILS_APPLICATION_PATH` - path to the Floatr application
-* `DECODER_PATH` - path to rtl_ais
+* `DECODER_PATH` - path to AIS-catcher
 * `FLOATR_SERVICE_PATH` - path to ais.rb (i.e. `/usr/local/share/floatr/`)
 * `RBENV_PATH` - i.e. `/home/username/.rbenv/shims/ruby`
 
@@ -31,9 +31,11 @@ Ideally, the services work like this:
 * Where it's parsed into Active Record objects by `ais.rb`...
 * And saved to the database for the Rails application to consume.
 
+Note that it's possible to replace `decode-ais.sh` with any stream of AIVDM sentences (from another service, STDIN, etc.)
+
 [floatr_github_link]: https://github.com/ryansprott/floatr
 [ais_wiki_link]: https://en.wikipedia.org/wiki/Automatic_identification_system
 [sdr_link]: https://www.rtl-sdr.com/
 [nmea_plus_link]: https://github.com/ianfixes/nmea_plus
-[rtl_ais_link]: https://github.com/dgiardini/rtl-ais
+[ais_catcher_link]: https://github.com/jvde-github/AIS-catcher
 [aivdm_link]: https://gpsd.gitlab.io/gpsd/AIVDM.html
