@@ -21,7 +21,7 @@ source_decoder = NMEAPlus::SourceDecoder.new(ARGF)
 source_decoder.each_complete_message do |message|
   begin
     if message.ais.is_a?(NMEAPlus::Message::AIS::VDMPayload::VDMMsg)
-      source = Source.find_or_create_by!({ mmsi: message.ais.source_mmsi })
+      source = Source.find_or_initialize_by({ mmsi: message.ais.source_mmsi })
 
       case message.ais.message_type
       when 1..3
