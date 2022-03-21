@@ -1,3 +1,3 @@
 #!/bin/bash
 
-/DECODER_PATH/rtl-ais/rtl_ais -d 0 -P 4159 -R
+/DECODER_PATH/AIS-catcher -q -u 0.0.0.0 4159
